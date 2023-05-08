@@ -1,78 +1,42 @@
-import { ContactsList } from './ContactList.styled';
-import PropTypes from 'prop-types';
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFilter, selectContacts } from 'redux/selectors';
-import { Contact } from 'components/Contact/Contact';
-import { fetchContacts } from 'redux/operations';
+import { delContact } from 'redux/contacts/operations';
+import { getContacts, getFilter } from 'redux/contacts/selectors';
+import css from './ContactList.module.css';
 
-const ContactList = () => {
-  const dispatch = useDispatch();
-  const contacts = useSelector(selectContacts);
-  const { filter } = useSelector(getFilter);
-
-  useEffect(() => {
-    dispatch(fetchContacts());
-  }, [dispatch]);
-
-  if (!contacts) {
-    return null;
+const getVisibleContacts = (contacts, filter) => {
+  if (!filter) {
+    return contacts;
+  } else {
+    return contacts.filter(contact => {
+      return contact.name.toLowerCase().includes(filter.toLowerCase());
+    });
   }
-  const visibleContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(filter.toLowerCase())
-  );
+};
+
+export const ContactList = () => {
+  const contacts = useSelector(getContacts);
+  const filter = useSelector(getFilter);
+  const visibleContacts = getVisibleContacts(contacts, filter);
+
+  const dispatch = useDispatch();
+  const handleDelete = id => dispatch(delContact(id));
 
   return (
-    <div>
-      <ContactsList>
-        {visibleContacts.map(contact => (
-          <li key={contact.id}>
-            <Contact contact={contact} />
+    <div className={css.wraperContactList}>
+      <ul className={css.contactList}>
+        {visibleContacts.map((contact, id) => (
+          <li key={id} className={css.contactListItem}>
+            {contact.name}: {contact.number}
+            <button
+              type="button"
+              className={css.contactListItemBtn}
+              onClick={() => handleDelete(contact.id)}
+            >
+              Delete
+            </button>
           </li>
         ))}
-      </ContactsList>
+      </ul>
     </div>
   );
 };
-
-export default ContactList;
-
-ContactList.propTypes = {
-  contacts: PropTypes.object,
-  input: PropTypes.string,
-};
-
-// import './ContactList.css';
-// import PropTypes from 'prop-types';
-// import { useSelector } from 'react-redux';
-// import { getContacts, getFilter } from 'redux/selectors';
-// import { Contact } from 'components/Contact/Contact';
-
-// const ContactList = () => {
-//   const contacts = useSelector(getContacts);
-//   const { filter } = useSelector(getFilter);
-
-//   if (!contacts) {
-//     return null;
-//   }
-//   const visibleContacts = contacts.filter(contact =>
-//     contact.name.toLowerCase().includes(filter.toLowerCase())
-//   );
-
-//   return (
-//     <ul className="List_box">
-//       {visibleContacts.map(contact => (
-//         <li className="List_item" key={contact.id}>
-//           <Contact contact={contact} />
-//         </li>
-//       ))}
-//     </ul>
-//   );
-// };
-
-// export default ContactList;
-
-// ContactList.propTypes = {
-//   contacts: PropTypes.object,
-//   input: PropTypes.string,
-// };
