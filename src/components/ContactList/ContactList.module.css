@@ -1,26 +1,8 @@
-/* .contactList {
-
- 
-
-}
-
-.contactListItem {
-    display: flex;
-    flex-direction: column;
-  
-}
-
-
-
-.contactListItemIcon {
-
-} */
-
 .contactListItemBtn {
   margin-top: 1rem;
   margin-bottom: 0.5rem;
   align-items: right;
-  background-color: rgba(23, 26, 32, 0.8);
+  background-color: rgba(41, 68, 120, 0.8);
   border: none;
   border-radius: 6px;
   color: #fff;
@@ -38,6 +20,6 @@
 }
 
 .contactListItemBtn:hover {
-  background-color: rgba(23, 26, 32, 1);
+  background-color: rgb(4, 34, 94);
   cursor: pointer;
 }

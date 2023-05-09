@@ -11,7 +11,7 @@
 .logInUser {
   color: royalblue;
 }
-.btnLogin {
+.UserMenu_btnLogin {
   display: flex;
   justify-items: center;
   align-items: center;
@@ -34,7 +34,7 @@
   cursor: pointer;
 }
 
-.btnLogin:hover {
+.UserMenu_btnLogin:hover {
   background-color: rgba(23, 26, 32, 1);
   cursor: pointer;
 }
